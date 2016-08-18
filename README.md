@@ -6,14 +6,13 @@ Koncept:
 Predavanje jedan školski sat, rješavanje zadataka kroz sljedeća dva školska sata.
 
 Predavanja se sastoji od tri dijela:
- - Osnove HTML i CSS, uvod u javascript, osnovni elementi jezika (varijable, tipovi podataka, svojstva, metode, operatori), upravljanje s HTML elementima i CSS svojstvima
+ - [01_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/01_termin>Osnove HTML i CSS, uvod u javascript, osnovni elementi jezika (varijable, tipovi podataka, svojstva, metode, operatori), upravljanje s HTML elementima i CSS svojstvima
  - Uvjetna grananja, nizovi, petlje 
  - Rad s objektima, funckije, AJAX
  
-Rješavanje zadataka
-Nakon svakog predavanja polaznici škole rješavaju četiri definirana zadatka iz domene predavanja. U slučaju uspješnog rješenja danih zadataka polaznici samostalno rade na dodatnim implementacijama prikazanog gradiva.
+Rješavanje zadataka:
+Nakon svakog predavanja polaznici škole rješavaju definirane zadatke iz domene predavanja. U slučaju uspješnog rješenja danih zadataka polaznici samostalno rade na dodatnim implementacijama prikazanog gradiva.
 
-## Osnove HTML i CSS, uvod u javascript, osnovni elementi jezika (varijable, tipovi podataka, svojstva, metode, operatori), upravljanje s HTML elementima i CSS svojstvima
 
    
    Oprema: Visual Studio Code (može i Notepad++)

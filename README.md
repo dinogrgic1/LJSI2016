@@ -6,7 +6,7 @@ Koncept:
 Predavanje jedan školski sat, rješavanje zadataka kroz sljedeća dva školska sata.
 
 Predavanja se sastoji od tri dijela:
- - [01_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/01_termin>Osnove HTML i CSS, uvod u javascript, osnovni elementi jezika (varijable, tipovi podataka, svojstva, metode, operatori), upravljanje s HTML elementima i CSS svojstvima
+ - [01_termin] Osnove HTML i CSS, uvod u javascript, osnovni elementi jezika (varijable, tipovi podataka, svojstva, metode, operatori), upravljanje s HTML elementima i CSS svojstvima
  - Uvjetna grananja, nizovi, petlje 
  - Rad s objektima, funckije, AJAX
  
@@ -22,11 +22,16 @@ Tomislav Jakopec je veliki zaljubljenik u informacijske tehnologije općenito. Z
 
 
 Korišteni izvori
-   [Osijek Software City CodeCAMP: Osnove JavaScripta]: <https://github.com/tjakopec/OSC3JS>
-   [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]: <https://github.com/tjakopec/ZSI2016>
+* [Osijek Software City CodeCAMP: Osnove JavaScripta]
+* [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]
 
 
 
 ** Sav korišten kod, kako u primjerima tako i u razvojnim alatima je besplatan i dostupan u otvorenom pristupu. Stoga je i ovaj sadržaj besplatno dostupan u otvorenom pristupu  **
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+
+
+   [01_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/01_termin>
+   [Osijek Software City CodeCAMP: Osnove JavaScripta]: <https://github.com/tjakopec/OSC3JS>
+   [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]: <https://github.com/tjakopec/ZSI2016>

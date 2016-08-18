@@ -1,6 +1,6 @@
-# Ljetna škola informatike 2016, Osijek
+# Ljetna škola informatike Osijek 2016
 ## Uvod u javascript
-Niz predavanja i vježbi održanih na Ljetnoj školi informatike 2016, Osijek u razdoblju 23. - 25. kolovoza 2016. godine.
+Niz predavanja i vježbi održanih na Ljetnoj školi informatike Osijek 2016 u razdoblju 23. - 25. kolovoza 2016. godine.
 
 Koncept:
 Predavanje jedan školski sat, rješavanje zadataka kroz sljedeća dva školska sata.

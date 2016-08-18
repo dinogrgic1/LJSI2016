@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="UTF-8">
+		<title>Ljubavni kalkulator</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<!--Google Font - Work Sans-->
+		<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,700' rel='stylesheet' type='text/css'>
+		<div class="container">
+			<div class="profile">
+				
+				<button class="profile__avatar" id="toggleProfile">
+					Ljubavni kalkulator
+					<img src="img/scre.png" alt="Avatar" />
+				</button>
+				<div class="profile__form">
+					<div class="profile__fields">
+						<div class="field">
+							<input type="text" id="ona" class="input" required pattern=.*\S.* />
+							<label for="ona" class="label">Ona</label>
+						</div>
+						<div class="field">
+							<input type="text" id="on" class="input" required pattern=.*\S.* />
+							<label for="on" class="label">On</label>
+						</div>
+						<div class="profile__footer">
+							<span id="poruka">
+								
+							</span>
+							<button class="btn" id="izracunaj">
+								Izračunaj
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<ul id="rezultati">
+		</ul>
+		
+		<script src="js/ljubav.js"></script>
+		<script src="js/index.js"></script>
+
+	</body>
+</html>

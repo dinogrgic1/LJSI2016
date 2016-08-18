@@ -8,7 +8,7 @@ Predavanje jedan školski sat, rješavanje zadataka kroz sljedeća dva školska 
 Predavanja se sastoji od tri dijela:
  - [01_termin] Osnove HTML i CSS, uvod u javascript, osnovni elementi jezika (varijable, tipovi podataka, svojstva, metode, operatori), upravljanje s HTML elementima i CSS svojstvima
  - [02_termin] Uvjetna grananja, nizovi, petlje 
- - Rad s objektima, funckije, AJAX
+ - [03_termin] Rad s objektima, funckije, AJAX
  
 Rješavanje zadataka:
 Nakon svakog predavanja polaznici škole rješavaju definirane zadatke iz domene predavanja. U slučaju uspješnog rješenja danih zadataka polaznici samostalno rade na dodatnim implementacijama prikazanog gradiva.
@@ -34,5 +34,6 @@ Korišteni izvori
 
    [01_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/01_termin>
    [02_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/02_termin>
+   [03_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/03_termin>
    [Osijek Software City CodeCAMP: Osnove JavaScripta]: <https://github.com/tjakopec/OSC3JS>
    [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]: <https://github.com/tjakopec/ZSI2016>

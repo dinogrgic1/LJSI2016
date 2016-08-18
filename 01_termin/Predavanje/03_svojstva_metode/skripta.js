@@ -13,12 +13,8 @@ var x=2.62366;
 
 console.log("x.MAX_VALUE: " + x.MAX_VALUE);
 console.log("Number.MIN_VALUE: " + Number.MAX_VALUE);
-console.log("x.toPrecision(2): " + x.toPrecision(3));
+console.log("x.toPrecision(3): " + x.toPrecision(3));
 console.log("x.toString(): " + x.toString());
-
-var starost = 1471505616;
-
-console.log(starost.MAX_VALUE);
 
 //Za čitanje
 //http://www.w3schools.com/jsref/jsref_obj_number.asp

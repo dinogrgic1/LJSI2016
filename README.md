@@ -22,6 +22,11 @@ Predavač:
 Tomislav Jakopec je veliki zaljubljenik u informacijske tehnologije općenito. Zaposlen je kao poslijedoktorand na Odsjeku za informacijske znanosti Filozofskog fakulteta u Osijeku. Sudjeluje u izvođenje nastave na kolegijima Oblikovanje mrežnih stranica, Baze podataka II, Implementacije programskih rješenja za oblikovanje sadržaja, Elektroničko nakladništvo i knjižarstvo, Informacijsko komunikacijska infrastruktura, Projektiranje informacijskih sustava te Programiranje 2 i 3.
 
 
+Korišteni izvori
+   [Osijek Software City CodeCAMP: Osnove JavaScripta]: <https://github.com/tjakopec/OSC3JS>
+   [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]: <https://github.com/tjakopec/ZSI2016>
+
+
 
 ** Sav korišten kod, kako u primjerima tako i u razvojnim alatima je besplatan i dostupan u otvorenom pristupu. Stoga je i ovaj sadržaj besplatno dostupan u otvorenom pristupu  **
 

@@ -59,3 +59,23 @@ for (var i=0; i<imena.length; i++){
 }
 
 console.log("-----------------------");
+
+//beskonačne petlja
+
+var t=4;
+
+for(;;){
+	if(t==4){
+		break;
+	}
+}
+
+
+while(true){
+	if(t==4){
+		break;
+	}
+}
+
+
+

@@ -37,4 +37,15 @@ mjeseci.push("Prosinac");
 
 console.log("mjeseci: " + mjeseci);
 
+//Višedimenzionalni nizovi: niz u nizu
+var niz=[]; //prva dimenzija
+niz[0]=[];//druga dimenzija
+niz[1]=[];
+
+niz[0][0]=0;
+niz[0][1]=0;
+niz[1][0]=0;
+niz[1][1]=1;
+
+console.log(niz);
 

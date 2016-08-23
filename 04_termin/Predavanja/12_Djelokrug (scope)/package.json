@@ -1,0 +1,14 @@
+{
+  "name": "scope-and-closures",
+  "version": "1.0.0",
+  "description": "Scope & Closures lecture for OSC Code Camp",
+  "scripts": {
+    "build": "cleaver scope-and-closures.markdown",
+    "start": "cleaver watch scope-and-closures.markdown"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cleaver": "^0.8.2"
+  }
+}

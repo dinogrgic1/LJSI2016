@@ -1,10 +1,16 @@
+
+
+
+
+
 //for petlja
 // for( početna vrijednost; uvjet izlaska iz petlje; povečanje brojača )
 
-for (var i=0; i<10; i++){
-	console.log("Vrijednost varijable i: " + i);
+var suma=0;
+for (var i=0; i<=100; i++){
+	suma+=i;
 }
-console.log("-----------------------");
+console.log(suma);
 
 //nastavak i prekid petlje
 
@@ -34,6 +40,17 @@ for (var i=1; i<=10; i++){
 for (var i=0; i<x.length; i++){
 	console.log(x[i]);
 }
+
+document.write("<table>");
+for (var i=0; i<x.length; i++){
+	document.write("<tr>");
+	for (var j=0; j<x[i].length; j++){
+			document.write("<td>" + x[i][j] + "</td>");
+	}
+	document.write("</tr>");
+}
+document.write("</table>");
+
 
 console.log("-----------------------");
 

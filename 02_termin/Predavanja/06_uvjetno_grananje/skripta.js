@@ -4,7 +4,19 @@ var y=2;
 
 var rezultat;
 
-if(x>y){
+if (x>y)
+	console.log("tt");
+else
+	console.log("pp");
+
+console.log((x>y) ? "tt" : "pp");
+
+//loše
+if (x>y)
+	console.log("ddd");
+	x=4;
+
+if(x>y & x>10){
 	rezultat=x+y;
 }else{
 	rezultat=x-y;
@@ -24,7 +36,16 @@ console.log("--------------");
 
 //switch - višestruko grananje
 
+
+
 var ocjena=2;
+
+if (ocjena==1){
+	console.log("Ne");
+} else if (ocjena==2){
+	console.log("Do");
+}
+
 
 switch(ocjena){
 	case 1:
@@ -33,13 +54,13 @@ switch(ocjena){
 	case 2:
 		console.log("Dovoljan");
 		break;
-	case 2:
+	case 3:
 		console.log("Dobar");
 		break;
-	case 2:
+	case 4:
 		console.log("Vrlo dobar");
 		break;
-	case 2:
+	case 5:
 		console.log("Odličan");
 		break;
 	default:

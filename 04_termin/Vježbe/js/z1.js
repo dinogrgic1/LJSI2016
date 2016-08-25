@@ -6,8 +6,8 @@
 // 2. Pribroji broj znakova iz "Osijek Software City" nasumičnom cijelom broju
 // 3. Podijeli s 2 i zaokruži na cjeli broj ako smo dobili decimalnu vrijednost
 
-var x = "Osijek Software City";
-function randomise(vrijednost) {
+function randomise() {
+    var x = "Osijek Software City";
     var slucajniBroj; 
     
     // Napiši 1. funkciju koja vraća slučajni cijeli broj
@@ -16,5 +16,3 @@ function randomise(vrijednost) {
 
     // vrati -> slucajniBroj = duljina od "Osijek Software City) + random cijeli broj / 2.
 }
-
-// Ovdje pozovi funkciju randomise

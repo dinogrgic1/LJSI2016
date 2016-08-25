@@ -2,7 +2,13 @@ var redova = prompt("Unesite broj redova",3);
 
 var kolona = prompt("unesite broj redova",5);
 
-if(kolona>redova){
+posao();
+
+
+function posao(){
+    if(kolona<redova){
+    return ;
+    }
 
 var podaci= [];
 
@@ -56,3 +62,5 @@ document.write("</table>");
 
 //console.log(podaci);
 }
+
+

@@ -18,7 +18,11 @@ console.log("-------------");
 var osoba = new Object();
 osoba.ime="Pero";
 osoba.godine=22;
-
+var nn=[];
+var oo = {ime: "Marija", godine: 22};
+nn.push(oo);
+console.log(nn[0].godine);
+console.log(oo);
 console.log("osoba.ime: " + osoba.ime);
 console.log(osoba);
 

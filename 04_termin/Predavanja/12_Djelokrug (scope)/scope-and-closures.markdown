@@ -1,20 +1,23 @@
 title: Scope & Closures
 output: scope-and-closures.html
 controls: false
-theme: jdan/cleaver-retro
+style: style.css
 
 --
 
 # Scope and Closures
 ## Code Camp 2016
+<br />
+## Vlatko Vlahek
+## Vedran Zakanj
+
 --
 
 ### Prerequisites
 
 * Variables
 * Functions
-* Expressions
-
+* Callbacks
 
 --
 
@@ -24,6 +27,7 @@ theme: jdan/cleaver-retro
 * no silent errors - we want to know about these
 * code can be better optimized by JS engine - potentially faster
 * enabled by adding "use strict"; at the beginning of script or function
+* we'll be using strict mode in all of our examples and exercises
 
 --
 
@@ -38,10 +42,12 @@ console.log("Using strict mode.");
 Function level
 
 ```javascript
+// non strict mode
 function foo() {
-    "use strict";
+    "use strict"; // strict mode
     console.log("Strict only inside function foo.");
 }
+// non strict mode
 
 foo();
 ```
@@ -72,7 +78,7 @@ function rateSecondCar() {
 
 rateFirstCar(); // prints "VolksWagen is better than Fiat."
 rateSecondCar(); // prints "Mercedes is better than VolksWagen."
-console.log(firstCar); // ReferenceError because firstCar is not in scope
+console.log(firstCar); // ReferenceError, firstCar is not in scope
 ```
 
 --
@@ -150,35 +156,162 @@ var userName = "admin";
 
 function validateUsername(name) { // beginning of function definition
     // create variable in function scope, inaccessible from global scope
+    // notice that name is also local to function scope
     var isValid = name === "admin";
     return isValid;
 } // end of function definition
 
 var userNameValid = validateUsername(userName);
-
 console.log(userNameValid); // prints true
 console.log(isValid); // ReferenceError
 ```
 --
 
 ### Nested scopes
+Scopes can be nested, actually previous example is also nesting scopes, i.e. the scope created by the function is nested inside the global scope.
+
+Multiple levels of scope nesting are allowed by nesting a function inside a function. 
+
+If a function or a variable can't be found on the current scope, javascript will look for it in parent scope, then in parent's parent scope etc.
+
+-- 
+### Nested scopes example
+
+```javascript
+"use strict";
+var globalVariable = "I'm in global scope!";
+console.log(globalVariable); // prints "I'm in global scope!" 
+
+function createFirstNestedScope() {
+    var firstNestedScopeVariable = "First nested scope!";
+    console.log(firstNestedScopeVariable); 
+
+    function createSecondNestedScope() {
+        // globalVariable and firstNestedScopeVariable 
+        // also accessible here
+        var secondNestedScopeVariable = 
+            "Nested in first nested scope";
+        console.log(secondNestedScopeVariable); 
+    }
+    createSecondNestedScope();
+}
+createFirstNestedScope();
+```
+
+--
+
+### Nested scopes illustrated
+
+** // TODO **
+--
+
+### Shadowing
+Having a variable with the same identifier inside a scope and its nested scope, when accessing a variable from the nested scope the variable in that scope will be used instead of the parent scope's variable, we say that the variable is *shadowed*.  
+
+```javascript
+"use strict";
+var foo = 5;
+
+function printFoo() {
+    // this foo is shadowing foo variable from global scope
+    var foo = 10; 
+    console.log(foo); // prints 10
+} 
+
+printFoo();
+console.log(foo); // prints 5
+```
+
+--
+
+### Hoisting
+Variable and function *declarations* are *hoisted* to the beginning of the current scope.
+
+```javascript
+"use strict";
+console.log(nonExistingVariable); // ReferenceError
+```
+
+vs
+
+```javascript
+"use strict";
+console.log(definedLater); // prints "undefined"
+
+var definedLater = "I exist!";
+console.log(definedLater); // prints "I exist!"
+```
+
+---
+
+### More hoisting
 
 
+```javascript
+"use strict";
+console.log(bar); // prints undefined, but no ReferenceError
+
+printFoos();
+
+function printFoos() {
+    foo = "First foo!";
+    console.log(foo); // prints "First foo!"
+
+    var foo = "Second foo!"
+    console.log(foo); // prints "Second foo!"
+}
+
+var bar = "Bar!";
+
+console.log(bar); // prints "Bar!"
+```
+
+--
+
+### Previous hoisting example equivalent
+
+```javascript
+"use strict";
+var bar;
+
+function printFoos() {
+    var foo;
+    foo = "First foo!";
+    console.log(foo); // prints "First foo!"
+
+    foo = "Second foo!"
+    console.log(foo); // prints "Second foo!"
+}
+
+console.log(bar); // prints undefined, but no ReferenceError
+printFoos();
+
+bar = "Bar!";
+console.log(bar); // prints "Bar!"
+```
 --
 
 ### Function expressions
 
 --
 
-### Preventing global scope pollution
+### Immediately invoked function expressions (IIFE)
 
 --
 
-### Variable hoisting
+### Don't pollute the global scope - module pattern
 
 --
 
 ### Closures
+
+--
+
+### Asynchronous operations and callbacks
+
+--
+
+### Closures and async operations
 
 --
 

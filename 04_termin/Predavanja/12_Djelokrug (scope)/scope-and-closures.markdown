@@ -5,8 +5,8 @@ style: style.css
 
 --
 
-# Scope and Closures
-## Code Camp 2016
+# Scope, Closures and Friends
+## Code Club Osijek 2016
 <br />
 ## Vlatko Vlahek
 ## Vedran Zakanj
@@ -89,6 +89,7 @@ console.log(firstCar); // ReferenceError, firstCar is not in scope
 * global scope pollution is a problem
 
 ```javascript
+"use strict";
 var globalVariable = "I'm global!";
 console.log(window.globalVariable); // prints "I'm global!"
 ```
@@ -217,7 +218,6 @@ function printFoo() {
     var foo = 10; 
     console.log(foo); // prints 10
 } 
-
 printFoo();
 console.log(foo); // prints 5
 ```
@@ -225,7 +225,7 @@ console.log(foo); // prints 5
 --
 
 ### Hoisting
-Variable and function *declarations* are *hoisted* to the beginning of the current scope.
+Variable and function *declarations* are moved to the beginning of their scope.
 
 ```javascript
 "use strict";
@@ -245,7 +245,6 @@ console.log(definedLater); // prints "I exist!"
 ---
 
 ### More hoisting
-
 
 ```javascript
 "use strict";
@@ -292,26 +291,237 @@ console.log(bar); // prints "Bar!"
 --
 
 ### Function expressions
+Declared using the *function* keyword, but the declaration *can't start* with the function keyword. To turn a function declaration into a function expression just wrap it in parantheses.
+
+Name of the function can be given optionally, but the function expression is accessible only from from its own scope (not available from global scope).
+
+```javascript
+"use strict";
+(function myFunctionExpression() {
+    console.log("myFunctionExpression executed.")
+});
+myFunctionExpression(); // ReferenceError
+```
+--
+
+### Function expressions continued
+The function expression in last example was a bit useless since we couldn't do anything with it, let's fix that.
+
+```javascript
+"use strict";
+var funcExpression = (function () {
+    console.log("funcExpression executed.");
+});
+
+funcExpression(); // prints "funcExpression executed."
+```
+
+--
+
+### Function expressions and hoisting
+When assigned to variables, expressions are hoisted using previously mentioned variable hoisting rules.
+
+```javascript
+"use strict";
+console.log(funcExpression); // prints undefined
+var funcExpression = (function () {
+    console.log("funcExpression executed.");
+});
+console.log(funcExpression); // prints expression body
+funcExpression(); // prints "funcExpression executed."
+```
+
+--
+### Analogy
+
+So, what exactly is happening here? Take a look at the following example:
+
+```javascript
+"use strict";
+// evaluate expression (1 + 2) and assign the result to foo
+// in this case the result is the number 3
+var foo = 1 + 2;
+
+1 + 2 // evaluate to 3 but result isn't stored anywhere
+(1 + 2) // same as above, parentheses optional in this case
+
+// evaluate func expression and assign the result to fooFunc
+// in this case the result is a function
+var fooFunc = function (a, b) { return a + b; };
+
+// evaluate to function but result isn't stored anywhere
+(function sum(a, b) { return a + b });
+
+```
 
 --
 
 ### Immediately invoked function expressions (IIFE)
+Function expressions which are executed as soon as they are declared, pronounced as *iffy*.
+
+```javascript
+"use strict";
+// prints "iife executed." without the need for a separate call
+(function iife() {
+    console.log("iife executed."); 
+})();
+```
 
 --
 
-### Don't pollute the global scope - module pattern
+### IIFE continued - module pattern
+Used to keep implementation details *private* and prevent *global scope pollution*.
+
+```javascript
+"use strict";
+var Module = (function createModule() {
+    function innerDoSomething() {
+        console.log("Inner do something.");
+    }
+
+    return {
+        doSomething: function() {
+            innerDoSomething();
+            console.log("Do something else.");
+        }
+    };
+
+})();
+
+Module.doSomething();
+```
 
 --
 
-### Closures
+### Higher order functions
+In JavaScript functions have same "privileges" as variables, i.e. they can be returned from other functions, assigned to variables, passed in as parameters etc. - functions are *first class citizens*.
+
+Higher order functions are functions which *return functions* or take *functions as parameters*.
+
+Function which is passed as a parameter and executed in another function is also known as a *callback*.
+
+---
+### Returning a function example
+
+```javascript
+"use strict";
+function hof() {
+    var inner = function() {
+        console.log("Inner function called.");
+    }
+
+    return inner;
+}
+
+var func = hof();
+func(); // prints "Inner function called."
+```
+
+---
+### Taking in function as a parameter example
+
+```javascript
+"use strict";
+function hof(callback) {
+    callback();
+}
+
+function inner() {
+    console.log("Passed in inner called.");
+}
+
+// we pass in a callback function
+// prints "Passed in inner called."
+hof(inner);
+
+```
+--
+
+### Scope closures
+Closure happens when a function has access to its lexical scope when it's actually executing out of that lexical scope, meaning that the lexical scope is "alive" after the function which created it has finished executing.
+
+It's a natural occurrence when working with higher order functions which access their lexical scope.
+
+--
+### Closure example
+
+```javascript
+"use strict";
+function firstFunction() {
+    // firstFunction scope
+    var a = 5;
+    var b = 10;
+
+    function secondFunction() {
+        // accessing variables from firstFunction scope
+        return a + b;
+    }
+
+    return secondFunction;
+}
+
+var demonstrateClosure = firstFunction();
+
+// uses firstFunction scope variables, but called from global scope
+var result = demonstrateClosure();
+console.log(result); // prints 15
+```
 
 --
 
-### Asynchronous operations and callbacks
+### Asynchronous functions
+
+Asynchronous functions are JavaScript functions which execute *in the background* while other JavaScript code can still execute during that time.
+
+In JavaScript these functions work by calling the function which should be executed in the background and also passing it a *callback* which will be executed once
+the background function finishes.
+
+Examples of asynchronous functions available in global scope are *setTimeout*, *setInterval* and *XMLHttpRequest*.
 
 --
 
-### Closures and async operations
+### Asynchronous function example
+
+```javascript
+"use strict";
+function printHelloMessage() {
+    console.log("Hello everyone!");
+}
+
+// prints message after 5000 ms = 5s
+// will be printed after "Waiting for delayed message."
+setTimeout(printHelloMessage, 5000);
+console.log("Waiting for delayed message.");
+```
+
+--
+
+### Asynchronous functions and closures
+Any time an asynchronous function callback function is operating on its lexical scope a closure is created, and the callback function has access to its
+lexical scope long after the asynchronous function was started.
+
+
+
+--
+### Asynchronous functions and closures
+```javascript
+"use strict";
+function delayedDoubleMessage(message) {
+    var doubleMessage = message + " " + message;
+
+    setTimeout(function () {
+        console.log(doubleMessage)
+    }, 10000);
+}
+
+// prints "Hello! Hello!" after 10 seconds, means that
+// after 10 seconds the callback still has access to the lexical scope
+// created by delayedDoubleMessage
+delayedDoubleMessage("Hello!");
+
+// prints "Waiting for hello." immediately
+console.log("Waiting for hello."); 
+```
 
 --
 

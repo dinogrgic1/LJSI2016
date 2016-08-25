@@ -1,9 +1,16 @@
 var osoba=[];
 
+osoba.push("ime");
+osoba.push(77);
+
 osoba["ime"]="Pero";
 osoba["godine"]=22;
 console.log(osoba);
 console.log("osoba[\"ime\"]: " + osoba["ime"]);
+
+for(var o in osoba){
+	console.log(o);
+}
 
 console.log("-------------");
 

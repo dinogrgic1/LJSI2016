@@ -1,18 +1,19 @@
 
-//ne vraća vrijdnost
+//ne vraća vrijednost
 function odradiPosao(){ //ne prima parametre
+	alert("Hello");
 	console.log("Odradio sam posao");
 }
 
 
-//vraća vrijdenost
-function slucajniBroj(){ //ne prima parametre
-	return Math.random();	
+//vraća vrijednost
+function slucajniBroj(x,y){ //prima 2 parametra
+	return Math.random()*x+y;	
 }
 
 
 odradiPosao();
-console.log("slučajni broj: " + slucajniBroj());
+console.log("slučajni broj: " + slucajniBroj(3,7));
 
 
 
@@ -111,7 +112,14 @@ var o = {
 	ime: "Tomislav",
 	prezime: "Jakopec", 
 	grad: "Osijek",
+	//ne radi
 	opis: function(){
     	return this.ime + " " + this.prezime + " " + "(" + this.grad +")";
     }
 };
+
+console.log(o.opis);
+
+function pozivFunkcije(){
+	alert("Škljocnuo si me");
+}

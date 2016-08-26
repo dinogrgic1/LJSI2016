@@ -7,21 +7,26 @@
 	<body>
 		<h1>Zadatak 2.</h1>
 		<ol>
-			<li>Kreirajte js datoteku, koja sadrži varijablu <b>zadatak2</b>, te u njoj objekt u <b>matematika</b> namespaceu.</li> 
-			<li>Matematika namespace treba imati 4 funkcije: 
+			<li>Prateći Module pattern, kreirajte funkciju imena "mojMath" koja sadrži 4 privatne i 4 javne funkcije</li> 
+			<li>Privatne funkcije se trebaju zvati
+				<ul>
+					<li>zbrajanje</li>
+					<li>oduzimanje</li>
+					<li>dijeljenje</li>
+					<li>mnozenje</li>
+				</ul>
+			</li>
+			<li>Javne funkcije se trebaju zvati
 				<ul>
 					<li>zbroji</li>
-					<li> oduzmi</li>
+					<li>oduzmi</li>
 					<li>podijeli</li>
-					<li>pomnoži</li>
+					<li>pomnozi</li>
 				</ul>
-				<p>koje primaju neograničen broj cjelobrojnih brojeva nad kojima vrše zadanu funkciju. Unos brojeva prekida se unošenjem riječi 'dosta'. Ukoliko je unešen bilo koja tekstualna vrijednost, funkcija bi ju trebala zanemariti.</p>
 			</li>
-            <li>Dodajte 4 gumba u HTML datoteku, od kojih svaki poziva 1 od navedenih funkcija, te traži unos brojeva od strane korisnika.</li>
-            <li>Rezultat matematičke operacije treba ispisati u HTML dokument, u "div" element sa ID-em "rezultat"</li>
+			<p>Svaka od funkcija treba primati 2 broja i vratiti rezultat matematičke operacije</p>
+			<p>Poziv javne funkcije bi trebao izvršiti pripadajuću privatnu i logirati poruku u konzolu u obliku: <br><br>
+			Zbroj/Razlika... brojeva x i y je: rezultat
 		</ol>
-		<h1>Primjer ...</h1>
-		<p>Rezultat:</p>
-		<div id="rezultat">0</div>
 	</body>
 </html>

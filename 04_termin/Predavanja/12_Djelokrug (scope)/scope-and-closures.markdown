@@ -72,7 +72,8 @@ foo();
 ```javascript
 "use strict";
 var carToRate = "VolksWagen"; // variable in global scope
-console.log("Rating car model: " + carToRate);
+// prints "Rating car model: VolksWagen"
+console.log("Rating car model: " + carToRate); 
 
 function rateFirstCar() {
     var firstCar = "Fiat"; // variable in local scope
@@ -335,7 +336,7 @@ console.log(funcExpression); // prints undefined
 var funcExpression = (function () {
     console.log("funcExpression executed.");
 });
-console.log(funcExpression); // prints expression body
+console.log(funcExpression); // prints function body
 funcExpression(); // prints "funcExpression executed."
 ```
 
@@ -393,9 +394,7 @@ var Module = (function createModule() {
             console.log("Do something else.");
         }
     };
-
 })();
-
 Module.doSomething();
 ```
 

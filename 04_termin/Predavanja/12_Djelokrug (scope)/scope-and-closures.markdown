@@ -542,6 +542,35 @@ console.log("Waiting for hello.");
 ```
 
 --
+### Scope and closures assignment
+
+Napišite funkciju *odbrojavanjeLansiranja* koja će predstavljati odbrojavanje lansiranja rakete. Funkcija treba prije početka odbrojavanja ispisati u konzolu
+"Početak odbrojavanja...", zatim odbrojavati od 10 do 0, prit tome izmedju svakog odbrojavanja sacekati jednu sekundu. Potrebno je ispisivati koliko je sekundi
+preostalo do polijetanja, a kada sekunde dosegnu 0 ne treba ispisati 0 već "Polijetanje!!!". Funkcija se mora sama pokrenuti pri učitavanju stranice.
+
+Napomena: Funkciju treba napisati pomoću *for* petlje i *setTimeout* funkcije. 
+
+---
+### Očekivani ispis u konzoli web preglednika
+Napomena: treba ispisati samo brojeve i tekst iz zadatka, dok je tekst koji počinje s // komentar za pomoć i ne treba biti dio ispisa funkcije.
+
+```
+Početak odbrojavanja... // Ispisati odmah
+10 // ispisati sekundu nakon "Početak odbrojavanja"
+9 // ispisati sekundu nakon 10
+8 // ispisati sekundu nakon 9
+7 // ispisati sekundu nakon 8
+6 // ispisati sekundu nakon 7
+5 // ispisati sekundu nakon 6
+4 // ispisati sekundu nakon 5
+3 // ispisati sekundu nakon 4
+2 // ispisati sekundu nakon 3
+1 // ispisati sekundu nakon 2
+Polijetanje!!! // ispisati sekundu nakon 1
+```
+
+
+--
 
 # That's all folks!
 ## Questions?

@@ -1,4 +1,4 @@
-title: Scope & Closures
+title: Scope, Closures & Friends
 output: scope-and-closures.html
 controls: false
 style: style.css
@@ -17,7 +17,6 @@ style: style.css
 
 * Variables
 * Functions
-* Callbacks
 
 --
 
@@ -203,7 +202,8 @@ createFirstNestedScope();
 
 ### Nested scopes illustrated
 
-** // TODO **
+![scope diagram](./images/scope-diagram.svg "Scope diagram")
+
 --
 
 ### Shadowing

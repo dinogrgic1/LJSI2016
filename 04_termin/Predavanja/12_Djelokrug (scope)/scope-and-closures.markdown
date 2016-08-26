@@ -20,6 +20,13 @@ style: style.css
 
 --
 
+### Zadatak 1.
+
+* Otvorite Zadatak1.html koji se nalazi u 04_termin/Vježbe i pratite upute.
+* Vrijeme rješavanja: 10 - 15 min.
+
+--
+
 ### Strict mode
 
 * restricted variant of JS (good thing!)
@@ -390,6 +397,16 @@ var Module = (function createModule() {
 
 Module.doSomething();
 ```
+
+--
+
+### Zadatak 2.
+
+* Prateći Module pattern, kreirajte funkciju imena "mojMath" koja sadrži 4 privatne i 4 javne funkcije</li> 
+* Privatne funkcije se trebaju zvati: *zbrajanje*, *oduzimanje*, *mnozenje*, *dijeljenje*
+* Javne funkcije se trebaju zvati: *zbroji*, *oduzmi*, *pomnozi*, *podijeli*
+* Svaka od funkcija treba primati 2 broja i vratiti rezultat matematičke operacije
+* Poziv javne funkcije bi trebao izvršiti pripadajuću privatnu funkciju i logirati poruku u konzolu
 
 --
 

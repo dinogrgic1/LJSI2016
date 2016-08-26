@@ -22,6 +22,7 @@ style: style.css
 
 ### Zadatak 1.
 
+* Funkcija koja generira nasumične cjelobrojne brojeve nije dovršena
 * Otvorite Zadatak1.html koji se nalazi u 04_termin/Vježbe i pratite upute.
 * Vrijeme rješavanja: 10 - 15 min.
 

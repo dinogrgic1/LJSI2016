@@ -1,0 +1,1063 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Scope, Closures &amp; Friends</title>
+  <style type="text/css">
+    body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  font-size: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #f7f7f7;
+}
+
+.slide-content {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  margin: 80px auto 0 auto;
+  padding: 30px;
+
+  font-weight: 200;
+  font-size: 200%;
+  line-height: 1.375;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.arrow {
+  width: 0; height: 0;
+  border: 30px solid #333;
+  float: left;
+  margin-right: 30px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.prev {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+
+  border-left-width: 0;
+  border-right-width: 50px;
+}
+
+.next {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  border-left-width: 50px;
+  border-right-width: 0;
+}
+
+.prev:hover {
+  border-right-color: #888;
+  cursor: pointer;
+}
+
+.next:hover {
+  border-left-color: #888;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 300%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 170px 0 0;
+}
+
+h2 {
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 200;
+}
+
+h3 {
+  font-size: 140%;
+  line-height: 1.2;
+  border-bottom: 1px solid #aaa;
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+ul {
+  padding: 20px 0 0 60px;
+  font-weight: 200;
+  line-height: 1.375;
+}
+
+.author h1 {
+  font-size: 170%;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.author h3 {
+  font-weight: 100;
+  text-align: center;
+  font-size: 95%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: #44a4dd;
+}
+
+a:hover {
+  color: #66b5ff;
+}
+
+pre {
+  font-size: 60%;
+  line-height: 1.3;
+}
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 3px;
+  background-color: #b4b4b4;
+
+  -webkit-transition: width 0.05s ease-out;
+  -moz-transition: width 0.05s ease-out;
+  -o-transition: width 0.05s ease-out;
+  transition: width 0.05s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  body {
+    font-size: 70%;
+  }
+
+  .slide-content {
+    width: auto;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .prev, .prev:hover {
+    border-right-color: rgba(135, 135, 135, 0.5);
+  }
+
+  .next, .next:hover {
+    border-left-color: rgba(135, 135, 135, 0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 50%;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    padding: 10px;
+    margin-top: 10px;
+    height: 340px;
+  }
+
+  h1 {
+    margin-top: 50px;
+  }
+
+  ul {
+    padding-left: 25px;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: letter;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  body {
+    margin: 0 auto !important;
+    border: 0;
+    padding: 0;
+    float: none !important;
+    overflow: visible;
+    background: none !important;
+    font-size: 52%;
+  }
+
+  .progress, .controls {
+    display: none;
+  }
+
+  .slide {
+    position: static;
+  }
+
+  .slide-content {
+    border: 1px solid #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    height: 3.5in;
+    overflow: visible;
+  }
+
+  .slide:nth-child(even) {
+    /* 2 slides per page */
+    page-break-before: always;
+  }
+}
+
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #998;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #333;
+  font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #008080;
+}
+
+.hljs-string,
+.hljs-doctag {
+  color: #d14;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #900;
+  font-weight: bold;
+}
+
+.hljs-subst {
+  font-weight: normal;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #458;
+  font-weight: bold;
+}
+
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #000080;
+  font-weight: normal;
+}
+
+.hljs-regexp,
+.hljs-link {
+  color: #009926;
+}
+
+.hljs-symbol,
+.hljs-bullet {
+  color: #990073;
+}
+
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #0086b3;
+}
+
+.hljs-meta {
+  color: #999;
+  font-weight: bold;
+}
+
+.hljs-deletion {
+  background: #fdd;
+}
+
+.hljs-addition {
+  background: #dfd;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+body {
+  background-color: #222;
+  color: #eee;
+}
+
+h1, h3 {
+  font-family: Impact;
+  font-weight: bold;
+  font-style: italic;
+}
+
+pre code {
+  color: #ccc;
+  font-size: 140%;
+}
+
+.slide {
+  background-color: inherit;
+}
+
+.keyword {
+  color: #0086b3 !important;
+  font-weight: inherit !important;
+}
+
+.tag {
+  color: #900 !important;
+}
+
+code {
+  background-color: inherit;
+}
+
+em {
+  border-bottom: 1px solid #666;
+}
+
+.hljs-keyword {
+    color: #238241 !important;
+}
+  </style>
+</head>
+<body>
+    <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="slide" id="slide-1">
+    <section class="slide-content"><h1 id="scope-closures-and-friends">Scope, Closures and Friends</h1>
+<h2 id="code-club-osijek-2016">Code Club Osijek 2016</h2>
+<p><br /></p>
+<h2 id="vlatko-vlahek">Vlatko Vlahek</h2>
+<h2 id="vedran-zakanj">Vedran Zakanj</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-2">
+    <section class="slide-content"><h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Variables</li>
+<li>Functions</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-3">
+    <section class="slide-content"><h3 id="zadatak-1-">Zadatak 1.</h3>
+<ul>
+<li>Funkcija koja generira nasumične cjelobrojne brojeve nije dovršena</li>
+<li>Otvorite Zadatak1.html koji se nalazi u 04_termin/Vježbe i pratite upute.</li>
+<li>Vrijeme rješavanja: 10 - 15 min.</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-4">
+    <section class="slide-content"><h3 id="strict-mode">Strict mode</h3>
+<ul>
+<li>restricted variant of JS (good thing!)</li>
+<li>no silent errors - we want to know about these</li>
+<li>code can be better optimized by JS engine - potentially faster</li>
+<li>enabled by adding &quot;use strict&quot;; at the beginning of script or function</li>
+<li>we&#39;ll be using strict mode in all of our examples and exercises</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-5">
+    <section class="slide-content"><h3 id="strict-mode-example">Strict mode Example</h3>
+<p>Script level</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Using strict mode."</span>);</code></pre>
+<p>Function level</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// non strict mode</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-meta">    "use strict"</span>; <span class="hljs-comment">// strict mode</span>
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Strict only inside function foo."</span>);
+}
+<span class="hljs-comment">// non strict mode</span>
+
+foo();</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-6">
+    <section class="slide-content"><h3 id="scope">Scope</h3>
+<ul>
+<li>set of rules for storing and accessing variables and functions</li>
+<li>JavaScript uses lexical scope - scope determined by the position of the identifiers in the code</li>
+<li>lexical scope is used by most of the popular programming languages today</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-7">
+    <section class="slide-content"><h3 id="scope-example">Scope Example</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> carToRate = <span class="hljs-string">"VolksWagen"</span>; <span class="hljs-comment">// variable in global scope</span>
+<span class="hljs-comment">// prints "Rating car model: VolksWagen"</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Rating car model: "</span> + carToRate); 
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rateFirstCar</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> firstCar = <span class="hljs-string">"Fiat"</span>; <span class="hljs-comment">// variable in local scope</span>
+    <span class="hljs-built_in">console</span>.log(carToRate + <span class="hljs-string">" is better than "</span> + firstCar);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rateSecondCar</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Mercedes is better than "</span> + carToRate);
+}
+
+rateFirstCar(); <span class="hljs-comment">// prints "VolksWagen is better than Fiat."</span>
+rateSecondCar(); <span class="hljs-comment">// prints "Mercedes is better than VolksWagen."</span>
+<span class="hljs-built_in">console</span>.log(firstCar); <span class="hljs-comment">// ReferenceError, firstCar is not in scope</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-8">
+    <section class="slide-content"><h3 id="global-scope">Global scope</h3>
+<ul>
+<li>window object in the browser</li>
+<li>any variable declared in global scope is also accessible through window.&lt;variable&gt;</li>
+<li>global scope pollution is a problem</li>
+</ul>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> globalVariable = <span class="hljs-string">"I'm global!"</span>;
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">window</span>.globalVariable); <span class="hljs-comment">// prints "I'm global!"</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-9">
+    <section class="slide-content"><h3 id="scope-creation">Scope creation</h3>
+<p>In ES5 scopes can only be created by creating a function, there is no block scope like in some other languages.</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> isInputValid = <span class="hljs-literal">true</span>; <span class="hljs-comment">// global scope</span>
+
+<span class="hljs-keyword">if</span> (isInputValid) { <span class="hljs-comment">// if block start</span>
+    <span class="hljs-comment">// global scope, blocks don't create new scope</span>
+    <span class="hljs-keyword">var</span> msg = <span class="hljs-string">"User input is valid."</span>; 
+} <span class="hljs-comment">// if block end</span>
+
+<span class="hljs-built_in">console</span>.log(msg); <span class="hljs-comment">// prints "User input is valid."</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-10">
+    <section class="slide-content"><h3 id="blocks-don-t-create-new-scope">Blocks don&#39;t create new scope</h3>
+<p>Code from previous slide is equivalent to:</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> isInputValid = <span class="hljs-literal">true</span>; <span class="hljs-comment">// global scope</span>
+<span class="hljs-keyword">var</span> msg;
+
+<span class="hljs-keyword">if</span> (isInputValid) {
+    msg = <span class="hljs-string">"User input is valid."</span>;
+}
+
+<span class="hljs-built_in">console</span>.log(msg); <span class="hljs-comment">// prints "User input is valid."</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-11">
+    <section class="slide-content"><h3 id="compared-to-a-language-with-block-scope">Compared to a language with block scope</h3>
+<p>C# code: </p>
+<pre><code class="lang-csharp"><span class="hljs-keyword">var</span> isInputValid = <span class="hljs-keyword">true</span>;
+<span class="hljs-keyword">if</span> (isInputValid)
+{
+    <span class="hljs-comment">// Scope local to if statement</span>
+    <span class="hljs-keyword">var</span> msg = <span class="hljs-string">"User input is valid."</span>;
+}
+
+Console.WriteLine(msg);</code></pre>
+<p>Won&#39;t compile due to reference error since string msg is in the block scope of if statement.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-12">
+    <section class="slide-content"><h3 id="create-a-new-scope-with-a-function">Create a new scope with a function</h3>
+<p>Functions create a new scope, so <em>isValid</em> is not accessible from anywhere else, except inside the <em>validateUsername</em> function.</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> userName = <span class="hljs-string">"admin"</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateUsername</span>(<span class="hljs-params">name</span>) </span>{ <span class="hljs-comment">// beginning of function definition</span>
+    <span class="hljs-comment">// create variable in function scope, inaccessible from global scope</span>
+    <span class="hljs-comment">// notice that name is also local to function scope</span>
+    <span class="hljs-keyword">var</span> isValid = name === <span class="hljs-string">"admin"</span>;
+    <span class="hljs-keyword">return</span> isValid;
+} <span class="hljs-comment">// end of function definition</span>
+
+<span class="hljs-keyword">var</span> userNameValid = validateUsername(userName);
+<span class="hljs-built_in">console</span>.log(userNameValid); <span class="hljs-comment">// prints true</span>
+<span class="hljs-built_in">console</span>.log(isValid); <span class="hljs-comment">// ReferenceError</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
+    <section class="slide-content"><h3 id="nested-scopes">Nested scopes</h3>
+<p>Scopes can be nested, actually previous example is also nesting scopes, i.e. the scope created by the function is nested inside the global scope.</p>
+<p>Multiple levels of scope nesting are allowed by nesting a function inside a function. </p>
+<p>If a function or a variable can&#39;t be found on the current scope, javascript will look for it in parent scope, then in parent&#39;s parent scope etc.</p>
+</section>
+  </div>
+  <div class="slide hidden  " id="slide-14">
+    <section class="slide-content"><h3 id="nested-scopes-example">Nested scopes example</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> globalVariable = <span class="hljs-string">"I'm in global scope!"</span>;
+<span class="hljs-built_in">console</span>.log(globalVariable); <span class="hljs-comment">// prints "I'm in global scope!" </span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createFirstNestedScope</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> firstNestedScopeVariable = <span class="hljs-string">"First nested scope!"</span>;
+    <span class="hljs-built_in">console</span>.log(firstNestedScopeVariable); 
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createSecondNestedScope</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-comment">// globalVariable and firstNestedScopeVariable </span>
+        <span class="hljs-comment">// also accessible here</span>
+        <span class="hljs-keyword">var</span> secondNestedScopeVariable = 
+            <span class="hljs-string">"Nested in first nested scope"</span>;
+        <span class="hljs-built_in">console</span>.log(secondNestedScopeVariable); 
+    }
+    createSecondNestedScope();
+}
+createFirstNestedScope();</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-15">
+    <section class="slide-content"><h3 id="nested-scopes-illustrated">Nested scopes illustrated</h3>
+<p><img src="./images/scope-diagram.svg" alt="scope diagram" title="Scope diagram"></p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-16">
+    <section class="slide-content"><h3 id="shadowing">Shadowing</h3>
+<p>Having a variable with the same identifier inside a scope and its nested scope, when accessing a variable from the nested scope the variable in that scope will be used instead of the parent scope&#39;s variable, we say that the variable is <em>shadowed</em>.  </p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> foo = <span class="hljs-number">5</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printFoo</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// this foo is shadowing foo variable from global scope</span>
+    <span class="hljs-keyword">var</span> foo = <span class="hljs-number">10</span>; 
+    <span class="hljs-built_in">console</span>.log(foo); <span class="hljs-comment">// prints 10</span>
+} 
+printFoo();
+<span class="hljs-built_in">console</span>.log(foo); <span class="hljs-comment">// prints 5</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-17">
+    <section class="slide-content"><h3 id="hoisting">Hoisting</h3>
+<p>Variable and function <em>declarations</em> are moved to the beginning of their scope.</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-built_in">console</span>.log(nonExistingVariable); <span class="hljs-comment">// ReferenceError</span></code></pre>
+<p>vs</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-built_in">console</span>.log(definedLater); <span class="hljs-comment">// prints "undefined"</span>
+
+<span class="hljs-keyword">var</span> definedLater = <span class="hljs-string">"I exist!"</span>;
+<span class="hljs-built_in">console</span>.log(definedLater); <span class="hljs-comment">// prints "I exist!"</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-18">
+    <section class="slide-content"><h3 id="more-hoisting">More hoisting</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-built_in">console</span>.log(bar); <span class="hljs-comment">// prints undefined, but no ReferenceError</span>
+
+printFoos();
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printFoos</span>(<span class="hljs-params"></span>) </span>{
+    foo = <span class="hljs-string">"First foo!"</span>;
+    <span class="hljs-built_in">console</span>.log(foo); <span class="hljs-comment">// prints "First foo!"</span>
+
+    <span class="hljs-keyword">var</span> foo = <span class="hljs-string">"Second foo!"</span>
+    <span class="hljs-built_in">console</span>.log(foo); <span class="hljs-comment">// prints "Second foo!"</span>
+}
+
+<span class="hljs-keyword">var</span> bar = <span class="hljs-string">"Bar!"</span>;
+
+<span class="hljs-built_in">console</span>.log(bar); <span class="hljs-comment">// prints "Bar!"</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-19">
+    <section class="slide-content"><h3 id="previous-hoisting-example-equivalent">Previous hoisting example equivalent</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> bar;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printFoos</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> foo;
+    foo = <span class="hljs-string">"First foo!"</span>;
+    <span class="hljs-built_in">console</span>.log(foo); <span class="hljs-comment">// prints "First foo!"</span>
+
+    foo = <span class="hljs-string">"Second foo!"</span>
+    <span class="hljs-built_in">console</span>.log(foo); <span class="hljs-comment">// prints "Second foo!"</span>
+}
+
+<span class="hljs-built_in">console</span>.log(bar); <span class="hljs-comment">// prints undefined, but no ReferenceError</span>
+printFoos();
+
+bar = <span class="hljs-string">"Bar!"</span>;
+<span class="hljs-built_in">console</span>.log(bar); <span class="hljs-comment">// prints "Bar!"</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-20">
+    <section class="slide-content"><h3 id="function-expressions">Function expressions</h3>
+<p>Declared using the <em>function</em> keyword, but the declaration <em>can&#39;t start</em> with the function keyword. To turn a function declaration into a function expression just wrap it in parantheses.</p>
+<p>Name of the function can be given optionally, but the function expression is accessible only from from its own scope (not available from global scope).</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myFunctionExpression</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"myFunctionExpression executed."</span>)
+});
+myFunctionExpression(); <span class="hljs-comment">// ReferenceError</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-21">
+    <section class="slide-content"><h3 id="function-expressions-continued">Function expressions continued</h3>
+<p>The function expression in last example was a bit useless since we couldn&#39;t do anything with it, let&#39;s fix that.</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> funcExpression = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"funcExpression executed."</span>);
+});
+
+funcExpression(); <span class="hljs-comment">// prints "funcExpression executed."</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-22">
+    <section class="slide-content"><h3 id="function-expressions-and-hoisting">Function expressions and hoisting</h3>
+<p>When assigned to variables, expressions are hoisted using previously mentioned variable hoisting rules.</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-built_in">console</span>.log(funcExpression); <span class="hljs-comment">// prints undefined</span>
+<span class="hljs-keyword">var</span> funcExpression = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"funcExpression executed."</span>);
+});
+<span class="hljs-built_in">console</span>.log(funcExpression); <span class="hljs-comment">// prints function body</span>
+funcExpression(); <span class="hljs-comment">// prints "funcExpression executed."</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-23">
+    <section class="slide-content"><h3 id="analogy">Analogy</h3>
+<p>So, what exactly is happening here? Take a look at the following example:</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-comment">// evaluate expression (1 + 2) and assign the result to foo</span>
+<span class="hljs-comment">// in this case the result is the number 3</span>
+<span class="hljs-keyword">var</span> foo = <span class="hljs-number">1</span> + <span class="hljs-number">2</span>;
+
+<span class="hljs-number">1</span> + <span class="hljs-number">2</span> <span class="hljs-comment">// evaluate to 3 but result isn't stored anywhere</span>
+(<span class="hljs-number">1</span> + <span class="hljs-number">2</span>) <span class="hljs-comment">// same as above, parentheses optional in this case</span>
+
+<span class="hljs-comment">// evaluate func expression and assign the result to fooFunc</span>
+<span class="hljs-comment">// in this case the result is a function</span>
+<span class="hljs-keyword">var</span> fooFunc = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a, b</span>) </span>{ <span class="hljs-keyword">return</span> a + b; };
+
+<span class="hljs-comment">// evaluate to function but result isn't stored anywhere</span>
+(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum</span>(<span class="hljs-params">a, b</span>) </span>{ <span class="hljs-keyword">return</span> a + b });</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-24">
+    <section class="slide-content"><h3 id="immediately-invoked-function-expressions-iife-">Immediately invoked function expressions (IIFE)</h3>
+<p>Function expressions which are executed as soon as they are declared, pronounced as <em>iffy</em>.</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-comment">// prints "iife executed." without the need for a separate call</span>
+(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">iife</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"iife executed."</span>); 
+})();</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-25">
+    <section class="slide-content"><h3 id="iife-continued-module-pattern">IIFE continued - module pattern</h3>
+<p>Used to keep implementation details <em>private</em> and prevent <em>global scope pollution</em>.</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-keyword">var</span> Module = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createModule</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">innerDoSomething</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Inner do something."</span>);
+    }
+
+    <span class="hljs-keyword">return</span> {
+        doSomething: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            innerDoSomething();
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Do something else."</span>);
+        }
+    };
+})();
+Module.doSomething();</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-26">
+    <section class="slide-content"><h3 id="zadatak-2-">Zadatak 2.</h3>
+<ul>
+<li>Prateći Module pattern, kreirajte funkciju imena &quot;mojMath&quot; koja sadrži 4 privatne i 4 javne funkcije</li> </li>
+<li>Privatne funkcije se trebaju zvati: <em>zbrajanje</em>, <em>oduzimanje</em>, <em>mnozenje</em>, <em>dijeljenje</em></li>
+<li>Javne funkcije se trebaju zvati: <em>zbroji</em>, <em>oduzmi</em>, <em>pomnozi</em>, <em>podijeli</em></li>
+<li>Svaka od funkcija treba primati 2 broja i vratiti rezultat matematičke operacije</li>
+<li>Poziv javne funkcije bi trebao izvršiti pripadajuću privatnu funkciju i logirati poruku u konzolu</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-27">
+    <section class="slide-content"><h3 id="higher-order-functions">Higher order functions</h3>
+<p>In JavaScript functions have same &quot;privileges&quot; as variables, i.e. they can be returned from other functions, assigned to variables, passed in as parameters etc. - functions are <em>first class citizens</em>.</p>
+<p>Higher order functions are functions which <em>return functions</em> or take <em>functions as parameters</em>.</p>
+<p>Function which is passed as a parameter and executed in another function is also known as a <em>callback</em>.</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-28">
+    <section class="slide-content"><h3 id="returning-a-function-example">Returning a function example</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hof</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> inner = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Inner function called."</span>);
+    }
+
+    <span class="hljs-keyword">return</span> inner;
+}
+
+<span class="hljs-keyword">var</span> func = hof();
+func(); <span class="hljs-comment">// prints "Inner function called."</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-29">
+    <section class="slide-content"><h3 id="taking-in-function-as-a-parameter-example">Taking in function as a parameter example</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hof</span>(<span class="hljs-params">callback</span>) </span>{
+    callback();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inner</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Passed in inner called."</span>);
+}
+
+<span class="hljs-comment">// we pass in a callback function</span>
+<span class="hljs-comment">// prints "Passed in inner called."</span>
+hof(inner);</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-30">
+    <section class="slide-content"><h3 id="scope-closures">Scope closures</h3>
+<p>Closure happens when a function has access to its lexical scope when it&#39;s actually executing out of that lexical scope, meaning that the lexical scope is &quot;alive&quot; after the function which created it has finished executing.</p>
+<p>It&#39;s a natural occurrence when working with higher order functions which access their lexical scope.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-31">
+    <section class="slide-content"><h3 id="closure-example">Closure example</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">firstFunction</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// firstFunction scope</span>
+    <span class="hljs-keyword">var</span> a = <span class="hljs-number">5</span>;
+    <span class="hljs-keyword">var</span> b = <span class="hljs-number">10</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">secondFunction</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-comment">// accessing variables from firstFunction scope</span>
+        <span class="hljs-keyword">return</span> a + b;
+    }
+
+    <span class="hljs-keyword">return</span> secondFunction;
+}
+
+<span class="hljs-keyword">var</span> demonstrateClosure = firstFunction();
+
+<span class="hljs-comment">// uses firstFunction scope variables, but called from global scope</span>
+<span class="hljs-keyword">var</span> result = demonstrateClosure();
+<span class="hljs-built_in">console</span>.log(result); <span class="hljs-comment">// prints 15</span></code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-32">
+    <section class="slide-content"><h3 id="asynchronous-functions">Asynchronous functions</h3>
+<p>Asynchronous functions are JavaScript functions which execute <em>in the background</em> while other JavaScript code can still execute during that time.</p>
+<p>In JavaScript these functions work by calling the function which should be executed in the background and also passing it a <em>callback</em> which will be executed once
+the background function finishes.</p>
+<p>Examples of asynchronous functions available in global scope are <em>setTimeout</em>, <em>setInterval</em> and <em>XMLHttpRequest</em>.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-33">
+    <section class="slide-content"><h3 id="asynchronous-function-example">Asynchronous function example</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHelloMessage</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello everyone!"</span>);
+}
+
+<span class="hljs-comment">// prints message after 5000 ms = 5s</span>
+<span class="hljs-comment">// will be printed after "Waiting for delayed message."</span>
+setTimeout(printHelloMessage, <span class="hljs-number">5000</span>);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Waiting for delayed message."</span>);</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-34">
+    <section class="slide-content"><h3 id="asynchronous-functions-and-closures">Asynchronous functions and closures</h3>
+<p>Any time an asynchronous function callback function is operating on its lexical scope a closure is created, and the callback function has access to its
+lexical scope long after the asynchronous function was started.</p>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-35">
+    <section class="slide-content"><h3 id="asynchronous-functions-and-closures">Asynchronous functions and closures</h3>
+<pre><code class="lang-javascript"><span class="hljs-meta">"use strict"</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delayedDoubleMessage</span>(<span class="hljs-params">message</span>) </span>{
+    <span class="hljs-keyword">var</span> doubleMessage = message + <span class="hljs-string">" "</span> + message;
+
+    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(doubleMessage)
+    }, <span class="hljs-number">10000</span>);
+}
+
+<span class="hljs-comment">// prints "Hello! Hello!" after 10 seconds, means that</span>
+<span class="hljs-comment">// after 10 seconds the callback still has access to the lexical scope</span>
+<span class="hljs-comment">// created by delayedDoubleMessage</span>
+delayedDoubleMessage(<span class="hljs-string">"Hello!"</span>);
+
+<span class="hljs-comment">// prints "Waiting for hello." immediately</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Waiting for hello."</span>);</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-36">
+    <section class="slide-content"><h3 id="scope-and-closures-assignment">Scope and closures assignment</h3>
+<p>Napišite funkciju <em>odbrojavanjeLansiranja</em> koja će predstavljati odbrojavanje lansiranja rakete. Funkcija treba prije početka odbrojavanja ispisati u konzolu
+&quot;Početak odbrojavanja...&quot;, zatim odbrojavati od 10 do 0, prit tome izmedju svakog odbrojavanja sacekati jednu sekundu. Potrebno je ispisivati koliko je sekundi
+preostalo do polijetanja, a kada sekunde dosegnu 0 ne treba ispisati 0 već &quot;Polijetanje!!!&quot;. Funkcija se mora sama pokrenuti pri učitavanju stranice.</p>
+<p>Napomena: Funkciju treba napisati pomoću <em>for</em> petlje i <em>setTimeout</em> funkcije.</p>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-37">
+    <section class="slide-content"><h3 id="o-ekivani-ispis-u-konzoli-web-preglednika">Očekivani ispis u konzoli web preglednika</h3>
+<p>Napomena: treba ispisati samo brojeve i tekst iz zadatka, dok je tekst koji počinje s // komentar za pomoć i ne treba biti dio ispisa funkcije.</p>
+<pre><code>Početak odbrojavanja... // Ispisati odmah
+10 // ispisati sekundu nakon &quot;Početak odbrojavanja&quot;
+9 // ispisati sekundu nakon 10
+8 // ispisati sekundu nakon 9
+7 // ispisati sekundu nakon 8
+6 // ispisati sekundu nakon 7
+5 // ispisati sekundu nakon 6
+4 // ispisati sekundu nakon 5
+3 // ispisati sekundu nakon 4
+2 // ispisati sekundu nakon 3
+1 // ispisati sekundu nakon 2
+Polijetanje!!! // ispisati sekundu nakon 1</code></pre>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-38">
+    <section class="slide-content"><h1 id="that-s-all-folks-">That&#39;s all folks!</h1>
+<h2 id="questions-">Questions?</h2>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-39">
+    <section class="slide-content"><h1 id="thank-you-">Thank you!</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-40">
+    <section class="slide-content"></section>
+  </div>
+
+
+
+  <script type="text/javascript">
+    /**
+ * Returns the current page number of the presentation.
+ */
+function currentPosition() {
+  return parseInt(document.querySelector('.slide:not(.hidden)').id.slice(6));
+}
+
+
+/**
+ * Navigates forward n pages
+ * If n is negative, we will navigate in reverse
+ */
+function navigate(n) {
+  var position = currentPosition();
+  var numSlides = document.getElementsByClassName('slide').length;
+
+  /* Positions are 1-indexed, so we need to add and subtract 1 */
+  var nextPosition = (position - 1 + n) % numSlides + 1;
+
+  /* Normalize nextPosition in-case of a negative modulo result */
+  nextPosition = (nextPosition - 1 + numSlides) % numSlides + 1;
+
+  document.getElementById('slide-' + position).classList.add('hidden');
+  document.getElementById('slide-' + nextPosition).classList.remove('hidden');
+
+  updateProgress();
+  updateURL();
+  updateTabIndex();
+}
+
+
+/**
+ * Updates the current URL to include a hashtag of the current page number.
+ */
+function updateURL() {
+  try {
+    window.history.replaceState({} , null, '#' + currentPosition());
+  } catch (e) {
+    window.location.hash = currentPosition();
+  }
+}
+
+
+/**
+ * Sets the progress indicator.
+ */
+function updateProgress() {
+  var progressBar = document.querySelector('.progress-bar');
+
+  if (progressBar !== null) {
+    var numSlides = document.getElementsByClassName('slide').length;
+    var position = currentPosition() - 1;
+    var percent = (numSlides === 1) ? 100 : 100 * position / (numSlides - 1);
+    progressBar.style.width = percent.toString() + '%';
+  }
+}
+
+
+/**
+ * Removes tabindex property from all links on the current slide, sets
+ * tabindex = -1 for all links on other slides. Prevents slides from appearing
+ * out of control.
+ */
+function updateTabIndex() {
+  var allLinks = document.querySelectorAll('.slide a');
+  var position = currentPosition();
+  var currentPageLinks = document.getElementById('slide-' + position).querySelectorAll('a');
+  var i;
+
+  for (i = 0; i < allLinks.length; i++) {
+    allLinks[i].setAttribute('tabindex', -1);
+  }
+
+  for (i = 0; i < currentPageLinks.length; i++) {
+    currentPageLinks[i].removeAttribute('tabindex');
+  }
+}
+
+/**
+ * Determines whether or not we are currently in full screen mode
+ */
+function isFullScreen() {
+  return document.fullscreenElement ||
+         document.mozFullScreenElement ||
+         document.webkitFullscreenElement ||
+         document.msFullscreenElement;
+}
+
+/**
+ * Toggle fullScreen mode on document element.
+ * Works on chrome (>= 15), firefox (>= 9), ie (>= 11), opera(>= 12.1), safari (>= 5).
+ */
+function toggleFullScreen() {
+  /* Convenient renames */
+  var docElem = document.documentElement;
+  var doc = document;
+
+  docElem.requestFullscreen =
+      docElem.requestFullscreen ||
+      docElem.msRequestFullscreen ||
+      docElem.mozRequestFullScreen ||
+      docElem.webkitRequestFullscreen.bind(docElem, Element.ALLOW_KEYBOARD_INPUT);
+
+  doc.exitFullscreen =
+      doc.exitFullscreen ||
+      doc.msExitFullscreen ||
+      doc.mozCancelFullScreen ||
+      doc.webkitExitFullscreen;
+
+  isFullScreen() ? doc.exitFullscreen() : docElem.requestFullscreen();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Update the tabindex to prevent weird slide transitioning
+  updateTabIndex();
+
+  // If the location hash specifies a page number, go to it.
+  var page = window.location.hash.slice(1);
+  if (page) {
+    navigate(parseInt(page) - 1);
+  }
+
+  document.onkeydown = function (e) {
+    var kc = e.keyCode;
+
+    // left, down, H, J, backspace, PgUp - BACK
+    // up, right, K, L, space, PgDn - FORWARD
+    // enter - FULLSCREEN
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+      navigate(-1);
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+      navigate(1);
+    } else if (kc === 13) {
+      toggleFullScreen();
+    }
+  };
+
+  if (document.querySelector('.next') && document.querySelector('.prev')) {
+    document.querySelector('.next').onclick = function (e) {
+      e.preventDefault();
+      navigate(1);
+    };
+
+    document.querySelector('.prev').onclick = function (e) {
+      e.preventDefault();
+      navigate(-1);
+    };
+  }
+});
+
+
+  </script>
+</body>
+</html>

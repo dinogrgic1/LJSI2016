@@ -28,8 +28,6 @@ Vedran Zakanj je programer u Osječkoj tvrtki Mono koji u slobodno vrijeme povre
 Korišteni izvori
 * [Osijek Software City CodeCAMP: Osnove JavaScripta]
 * [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]
-* [Scope, Closures and Friends predavanje za Code Club Osijek 2016]
-
 
 
 ** Sav korišten kod, kako u primjerima tako i u razvojnim alatima je besplatan i dostupan u otvorenom pristupu. Stoga je i ovaj sadržaj besplatno dostupan u otvorenom pristupu  **
@@ -40,5 +38,6 @@ Korišteni izvori
    [01_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/01_termin>
    [02_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/02_termin>
    [03_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/03_termin>
+   [04_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/04_termin>
    [Osijek Software City CodeCAMP: Osnove JavaScripta]: <https://github.com/tjakopec/OSC3JS>
    [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]: <https://github.com/tjakopec/ZSI2016>

@@ -5,10 +5,12 @@ Niz predavanja i vježbi održanih na Ljetnoj školi informatike Osijek 2016 u r
 Koncept:
 Predavanje jedan školski sat, rješavanje zadataka kroz sljedeća dva školska sata.
 
-Predavanja se sastoji od tri dijela:
+Predavanja se sastoje od pet dijelova:
  - [01_termin] Osnove HTML i CSS, uvod u javascript, osnovni elementi jezika (varijable, tipovi podataka, svojstva, metode, operatori), upravljanje s HTML elementima i CSS svojstvima
  - [02_termin] Uvjetna grananja, nizovi, petlje 
  - [03_termin] Rad s objektima, funckije, AJAX
+ - [04_termin] Scope, closures i koncepti blisko vezani uz njih
+ - [05_termin] OOP u JavaScriptu, prototypal inheritance i dinamički "this"
  
 Rješavanje zadataka:
 Nakon svakog predavanja polaznici škole rješavaju definirane zadatke iz domene predavanja. U slučaju uspješnog rješenja danih zadataka polaznici samostalno rade na dodatnim implementacijama prikazanog gradiva.
@@ -17,13 +19,16 @@ Nakon svakog predavanja polaznici škole rješavaju definirane zadatke iz domene
    
    Oprema: Visual Studio Code (može i Notepad++)
 
-Predavač:
+Predavači:
 Tomislav Jakopec je veliki zaljubljenik u informacijske tehnologije općenito. Zaposlen je kao poslijedoktorand na Odsjeku za informacijske znanosti Filozofskog fakulteta u Osijeku. Sudjeluje u izvođenje nastave na kolegijima Oblikovanje mrežnih stranica, Baze podataka II, Implementacije programskih rješenja za oblikovanje sadržaja, Elektroničko nakladništvo i knjižarstvo, Informacijsko komunikacijska infrastruktura, Projektiranje informacijskih sustava te Programiranje 2 i 3.
+
+Vedran Zakanj je programer u Osječkoj tvrtki Mono koji u slobodno vrijeme povremeno drži predavanja vezana uz programiranje u sklopu Osijek Software Citya. Trenutni interesi uključuju računalnu grafiku, funkcijsko programiranje i distribuirane sustave.
 
 
 Korišteni izvori
 * [Osijek Software City CodeCAMP: Osnove JavaScripta]
 * [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]
+* [Scope, Closures and Friends predavanje za Code Club Osijek 2016]
 
 
 

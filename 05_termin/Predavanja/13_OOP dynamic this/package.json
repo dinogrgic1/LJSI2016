@@ -1,0 +1,14 @@
+{
+  "name": "oop-dynamic-this",
+  "version": "1.0.0",
+  "description": "OOP and dynamic this in JavaScript lecture for OSC Code Camp 2016",
+  "scripts": {
+    "build": "cleaver oop-dynamic-this.markdown",
+    "start": "cleaver watch oop-dynamic-this.markdown"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cleaver": "^0.8.2"
+  }
+}

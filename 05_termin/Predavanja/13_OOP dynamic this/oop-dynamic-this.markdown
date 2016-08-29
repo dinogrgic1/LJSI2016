@@ -215,9 +215,9 @@ stjepan.brat.reciIme(); // ...
 ### Explicit binding
 
 * We can bind explicitly with ***call***, ***apply*** and ***bind***
-* ***call*** uses "this" parameter and a list of variables
-* ***apply*** uses "this" parameter and an array of variables
-* ***bind*** uses "this" parameter
+* ***call*** executes a function with "this" parameter and a list of variables
+* ***apply*** executes a function "this" parameter and an array of variables
+* ***bind*** creates a function "this" parameter and a list of variables
 
 --
 

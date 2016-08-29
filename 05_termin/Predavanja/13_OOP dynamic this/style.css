@@ -18,6 +18,10 @@ pre code {
   background-color: inherit;
 }
 
+.slide-content {
+  width: 80%;
+}
+
 .keyword {
   color: #0086b3 !important;
   font-weight: inherit !important;

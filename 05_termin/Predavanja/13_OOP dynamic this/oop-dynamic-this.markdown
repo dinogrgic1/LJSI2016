@@ -224,6 +224,12 @@ stjepan.brat.reciIme(); // ...
 ### call
 
 * "call" method executes a function in the scope of the first object you pass into it
+* "call" method usses a comma separated list of arguments
+* Number of parameters is fixed
+
+--
+
+### Example
 
 ```javascript
 "use strict";
@@ -242,14 +248,6 @@ sayHello(osoba1); // Error
 --
 
 ### call with multiple arguments
-
-* "call" method executes a function in the scope of the first object you pass into it
-* "call" method usses a comma separated list of arguments
-* Number of parameters is fixed
-
---
-
-### Example
 
 ```javascript
 "use strict";

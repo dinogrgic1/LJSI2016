@@ -73,13 +73,79 @@ var batman = {
         console.log("Batman is " + this.firstName + " " + this.lastName);
     }
 }
-console.log(batman.firstName + " " + batman.lastName);
-batman.showFullName();
+console.log(batman.firstName + " " + batman.lastName); // Bruce Wayne
+batman.showFullName(); // ...
 ```
 
 --
 
-### Another Example
+### Zadatak 1.
+
+* Kreirajte objekt Osoba sa slijedećim parametrima: ***ime***, ***prezime***, ***grad***, ***postanskiBroj***, ***drzava***
+* Objekt bi trebao imati 2 funkcije: jednu koja vraća ime i prezime osobe, i drugu koja vraća poštansku adresu.
+* Primjer:
+    1. Ime i prezime: Pero Perić
+    2. Poštanska adresa: F.K.Frankopana 18, 31000 Osijek, Republika Hrvatska
+
+--
+
+### new 
+
+* Using "this" as an object constructor
+* If ***this*** is used inside an function it holds the value of the owner of the function
+
+```javascript
+var Car = function(brand, model, color){
+  this.brand = brand;
+  this.model = model;
+  this.color = color        
+}
+
+var audiA3 = new Car("Audi","A3","Crvena");
+var mazda3 = new Car("Mazda","3","Zelena");
+var skodaOctavia = new Car("Škoda","Octavia","Srebrna");
+```
+
+--
+
+### Another example
+
+```javascript
+"use strict";
+var film = (function() {
+    this.ime = "Interstellar";
+    this.zanr = "Sci-Fi";
+    console.log(this);  // { ime: 'Interstellar', zanr: 'Sci-Fi' }
+    console.log(this.ime); // Interstellar
+    console.log(this.zanr); // Sci-Fi
+});
+new film();
+```
+
+--
+
+### strict vs non-strict "this" 
+
+* Use "strict" mode to avoid global variable creation
+
+```javascript
+"use strict";
+function myConstructor() {
+    this.a = 'foo';
+    this.b = 'bar';
+}
+
+var contructor1 = new myConstructor(); 
+var constructor2 = myConstructor(); 
+console.log(contructor1) // {a: 'foo', b: 'bar' }
+console.log(constructor2); // undefined
+console.log(a);
+console.log(b);
+```
+
+--
+
+### Binding of "this"
 
 ```javascript
 "use strict"; 
@@ -89,27 +155,34 @@ var batman = {
     firstName: "Bruce",
     lastName: "Wayne",
     showFullName: function() {
-        console.log("Batman is " + firstName + " " + lastName);
+        console.log("Batman je " + this.firstName + " " + lastName);
     }
 }
-console.log(batman.firstName + " " + batman.lastName);
-batman.showFullName();
+console.log(batman.firstName + " " + batman.lastName); // Bruce ...
+batman.showFullName(); // Bruce ...
 ```
 
 --
 
-### "this" inside a function 
+### Implicit binding
 
-* If ***this*** is used inside an function it holds the value of the owner of the function
+* Implicitly binded "this" is always what is left of the dot.
 
 ```javascript
 "use strict";
-var myFunction = (function() {
-    this.a = 5;
-    console.log(this);
-    console.log(this.a);
-});
-new myFunction();
+var osoba1 = { ime: "Ivan", godine: 25 };
+var osoba2 = { ime: "Maja", godine: 27 };
+
+var ime = function(osoba) {
+    osoba.kaziIme = function() {
+        console.log(this.ime);
+    };
+};
+
+ime(osoba1); // Proslijeđivanje objekta u funkciju
+osoba1.kaziIme();
+ime(osoba2);
+osoba2.kaziIme();
 ```
 
 --
@@ -118,64 +191,156 @@ new myFunction();
 
 ```javascript
 "use strict";
-function myFunc() {
-    this.a = 5;
+var Osoba = function(ime, prezime, godine){ 
+    return { 
+        ime: ime,
+        prezime: prezime,
+        godine: godine,
+        reciIme: function() {
+            console.log(this.ime);
+        },
+        brat: {
+            ime: "Ivan",
+            prezime: prezime,
+            godine: 25,
+            reciIme: function() {
+                console.log(this.ime);
+            }
+        }
+    }
 };
-var five = new myFunc();
-console.log(five);
+var stjepan = new Osoba("Stjepan", "Šimić, 22");
+stjepan.reciIme(); // ...
+stjepan.brat.reciIme(); // ...
 ```
-
---
-
-### strict vs non-strict "this" 
-
-* If ***this*** is used inside a function, it holds the value of the owner of the function
-
-```javascript
-function myConstructor() {
-    this.a = 'foo';
-    this.b = 'bar';
-}
-
-var contructor1 = new myConstructor();
-var constructor2 = myConstructor();
-console.log(contructor1)
-console.log(constructor2);
-console.log(a);
-console.log(b);
-```
-
---
-
-### Binding of "this"
-
---
-
-### Implicit binding
 
 --
 
 ### Explicit binding
 
+* We can bind explicitly with ***call***, ***apply*** and ***bind***
+* ***call*** uses scope parameter and a list of variables
+* ***apply*** uses scope parameter and an array of variables
+* ***bind*** uses scope parameter
+
 --
 
 ### call
+
+* "call" method executes a function in the scope of the first object you pass into it
+
+```javascript
+"use strict";
+var osoba1 = { name: 'Ivana', age: 42 };
+var osoba2 = { name: 'Mirko', age: 58 };
+
+var sayHello = function(){
+    console.log('Bok ' + this.name);
+};
+
+sayHello.call(osoba1); // Bok Ivana
+sayHello.call(osoba2); // Bok Mirko
+sayHello(osoba1); // Error
+```
+
+--
+
+### call with multiple arguments
+
+* "call" method executes a function in the scope of the first object you pass into it
+* "call" method usses a comma separated list of arguments
+* Number of parameters is fixed
+
+--
+
+### Example
+
+```javascript
+"use strict";
+var osoba1 = { name: 'Ivana', age: 42 };
+
+var tkoJeTo = function(ime, prezime, sto, godine){
+    console.log(ime + " " + prezime + " je " + sto + " od " + godine + " godina")
+};
+
+tkoJeTo.call(osoba1, "Pero", "Perić", "student", 24); 
+tkoJeTo.call(osoba1, "Ivana", "Ivić", "djevojčica", 12);
+```
 
 --
 
 ### apply
 
+* "apply" method also executes a function in the scope of the first object you pass into it
+
+```javascript
+"use strict";
+var osoba1 = { name: 'Ivana', age: 42 };
+
+var sayHello = function(){
+    console.log('Bok ' + this.name);
+};
+
+var sayGoodbye = function(){
+    console.log('Doviđenja, ' + this.name);
+};
+
+sayHello.apply(osoba1); // Bok Ivana
+sayGoodbye.apply(osoba1); // Doviđenja, Mirko
+```
+
+--
+
+### apply with multiple arguments
+
+* "apply" method executes a function in the scope of the first object you pass into it
+* "apply" method usses an array of arguments
+* Number of parameters is is determined by the size of the array
+
+--
+
+### Example
+
+```javascript
+"use strict";
+var osoba1 = { name: 'Ivana', age: 42 };
+
+var tkoJeTo = function(ime, prezime, sto, godine){
+    console.log(ime + " " + prezime + " je " + sto + " od " + godine + " godina")
+};
+
+var args = ["Pero", "Perić", "student", 24];
+tkoJeTo.apply(osoba1, args);
+args = ["Ivana", "Ivić", "djevojčica", 12];
+tkoJeTo.apply(osoba1, args);
+```
+
 --
 
 ### bind
 
---
 
-### new 
 
 --
 
-### Objects revisited
+### Example
+
+```javascript
+"use strict";
+var osoba = { ime: "ime" }
+var tkoJeTo = function(ime, prezime, sto, godine){
+    console.log(ime + " " + prezime + " je " + sto + " od " + godine + " godina")
+};
+
+var ivana = tkoJeTo.bind(osoba, "Ivana", "Ivić", "studentica", 21);
+var stjepan = tkoJeTo.bind(osoba, "Stjepan", "Šimić", "učenik", 8);
+var robert = tkoJeTo.bind(osoba, "Luka", "Modrić", "nogometas", 30);
+var marko = tkoJeTo.bind(osoba, "Marko", "Marković", "mehaničar", 28);
+ivana();
+stjepan();
+robert();
+marko();
+```
 
 --
 

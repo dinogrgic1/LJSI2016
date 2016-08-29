@@ -91,8 +91,8 @@ batman.showFullName(); // ...
 
 ### new 
 
-* Using "this" as an object constructor
-* If ***this*** is used inside an function it holds the value of the owner of the function
+* "this" can be used as an object constructor
+* new keyword creates a new instance of an user defined object instead of calling the function
 
 ```javascript
 var Car = function(brand, model, color){
@@ -112,14 +112,14 @@ var skodaOctavia = new Car("Škoda","Octavia","Srebrna");
 
 ```javascript
 "use strict";
-var film = (function() {
-    this.ime = "Interstellar";
-    this.zanr = "Sci-Fi";
+var film = (function(ime,zanr) {
+    this.ime = ime;
+    this.zanr = zanr
     console.log(this);  // { ime: 'Interstellar', zanr: 'Sci-Fi' }
     console.log(this.ime); // Interstellar
     console.log(this.zanr); // Sci-Fi
 });
-new film();
+new film("Interstellar","Sci-fi");
 ```
 
 --
@@ -180,9 +180,9 @@ var ime = function(osoba) {
 };
 
 ime(osoba1); // Proslijeđivanje objekta u funkciju
-osoba1.kaziIme();
+osoba1.kaziIme(); // Ivan
 ime(osoba2);
-osoba2.kaziIme();
+osoba2.kaziIme(); // Maja
 ```
 
 --
@@ -191,25 +191,21 @@ osoba2.kaziIme();
 
 ```javascript
 "use strict";
-var Osoba = function(ime, prezime, godine){ 
+var Osoba = function(ime, prezime){ 
     return { 
-        ime: ime,
-        prezime: prezime,
-        godine: godine,
+        ime: ime, prezime: prezime,
         reciIme: function() {
             console.log(this.ime);
         },
         brat: {
-            ime: "Ivan",
-            prezime: prezime,
-            godine: 25,
+            ime: "Ivan", prezime: prezime,
             reciIme: function() {
                 console.log(this.ime);
             }
         }
     }
 };
-var stjepan = new Osoba("Stjepan", "Šimić, 22");
+var stjepan = new Osoba("Stjepan", "Šimić");
 stjepan.reciIme(); // ...
 stjepan.brat.reciIme(); // ...
 ```
@@ -219,9 +215,9 @@ stjepan.brat.reciIme(); // ...
 ### Explicit binding
 
 * We can bind explicitly with ***call***, ***apply*** and ***bind***
-* ***call*** uses scope parameter and a list of variables
-* ***apply*** uses scope parameter and an array of variables
-* ***bind*** uses scope parameter
+* ***call*** uses "this" parameter and a list of variables
+* ***apply*** uses "this" parameter and an array of variables
+* ***bind*** uses "this" parameter
 
 --
 
@@ -264,7 +260,7 @@ var tkoJeTo = function(ime, prezime, sto, godine){
 };
 
 tkoJeTo.call(osoba1, "Pero", "Perić", "student", 24); 
-tkoJeTo.call(osoba1, "Ivana", "Ivić", "djevojčica", 12);
+tkoJeTo.call(osoba1, osoba1.name, "Ivić", "djevojčica", 12);
 ```
 
 --
@@ -272,6 +268,12 @@ tkoJeTo.call(osoba1, "Ivana", "Ivić", "djevojčica", 12);
 ### apply
 
 * "apply" method also executes a function in the scope of the first object you pass into it
+* "apply" method usses an array of arguments
+* Number of parameters is is determined by the size of the array
+
+--
+
+### Example
 
 ```javascript
 "use strict";
@@ -293,14 +295,6 @@ sayGoodbye.apply(osoba1); // Doviđenja, Mirko
 
 ### apply with multiple arguments
 
-* "apply" method executes a function in the scope of the first object you pass into it
-* "apply" method usses an array of arguments
-* Number of parameters is is determined by the size of the array
-
---
-
-### Example
-
 ```javascript
 "use strict";
 var osoba1 = { name: 'Ivana', age: 42 };
@@ -319,7 +313,9 @@ tkoJeTo.apply(osoba1, args);
 
 ### bind
 
-
+* "bind" method creates a function in the scope of the first object you pass into it
+* "bind" uses a comma separated list of arguments
+* Allows passing in arguments without invoking the function
 
 --
 

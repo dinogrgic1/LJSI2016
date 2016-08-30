@@ -39,5 +39,6 @@ Korišteni izvori
    [02_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/02_termin>
    [03_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/03_termin>
    [04_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/04_termin>
+   [05_termin]: <https://github.com/tjakopec/LJSI2016/tree/master/05_termin>
    [Osijek Software City CodeCAMP: Osnove JavaScripta]: <https://github.com/tjakopec/OSC3JS>
    [Vizualizacija podataka koristeći D3.js na Zimskoj školi informatike Osijek 2016]: <https://github.com/tjakopec/ZSI2016>
